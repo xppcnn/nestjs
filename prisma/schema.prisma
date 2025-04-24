@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  @@map("users")
+  id           String   @id @default(uuid())
+  username     String   @db.VarChar(50)
+  password     String   @db.VarChar(50)
+  nick_name    String   @db.VarChar(50)
+  email        String   @db.VarChar(50)
+  head_pic     String   @db.VarChar(100)
+  phone_number String   @db.VarChar(100)
+  is_frozen    Boolean  @default(false)
+  is_admin     Boolean  @default(false)
+  created_time DateTime @default(now())
+  updated_time DateTime @updatedAt
+}
+
+model Role {
+  @@map("roles")
+  id           String   @id @default(uuid())
+  name         String   @db.VarChar(20)
+  created_time DateTime @default(now())
+  updated_time DateTime @updatedAt
+}
+
+model Permission {
+  @@map("permissions")
+  id           String   @id @default(uuid())
+  code         String   @db.VarChar(20)
+  description  String   @db.VarChar(100)
+  created_time DateTime @default(now())
+  updated_time DateTime @updatedAt
+}
+
+model UserRole {
+  @@map("user_roles")
+  id           String   @id @default(uuid())
+  user_id      String
+  role_id      String
+  created_time DateTime @default(now())
+  updated_time DateTime @updatedAt
+}
+
+model RolePermission {
+  @@map("role_permissions")
+  id           String   @id @default(uuid())
+  role_id      String
+  permission_id String
+  created_time DateTime @default(now())
+  updated_time DateTime @updatedAt
+}
