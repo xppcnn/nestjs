@@ -43,3 +43,17 @@ export class CreateUserDto {
   @MaxLength(100, { message: '手机号码长度不能超过100个字符' })
   phone_number?: string; // 类型也设为可选
 }
+
+export class LoginDto {
+  @IsString()
+  @IsNotEmpty({ message: '邮箱不能为空' })
+  email: string;
+
+  @IsString()
+  @IsNotEmpty({ message: '密码不能为空' })
+  password: string;
+
+  @IsString()
+  @IsNotEmpty({ message: '验证码不能为空' })
+  captcha: string;
+}
